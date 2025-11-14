@@ -1,14 +1,9 @@
-<div align="center">
-  <img src="assets/readme/Banner.png" width="100%">
-</div>
-<p align="center">
-  <img src="https://img.shields.io/github/downloads/DIOR/Applify/total">
-  <a href="https://discord.gg/Np7YYEVPhR"><img src="https://img.shields.io/discord/1411737769675329558"></a>
-</p>
-
-<h3 align="center"><b>🎵 Discover, Explore, Archive & Analyze Music</b></h3>
+<h1 align="center">🎵 Applify</h1>
 <p align="center">
   <em>A music exploration and discovery tool — <strong>Not</strong> a streaming service</em>
+</p>
+<p align="center">
+  <a href="https://discord.gg/Np7YYEVPhR"><img src="https://img.shields.io/discord/1411737769675329558"></a>
 </p>
 
 # What is Applify?
@@ -82,32 +77,9 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 
 ---
 
-# Build From Source
-
-<details>
-  <summary>But I hate Electron</summary>
-
-### Running without Electron (Web UI)
-
-1. **Run the backend:**
-
-   ```bash
-   python backend/src/main.py or run the backend exec
-   ```
-
-2. Open your browser and go to [applify.dior.com](http://applify.dior.com), I have tested on four browsers - Edge, Chrome support it and Safari, Brave don't
-3. Enjoy, and please don't spam about framework
-</details>
-
-# Screenshots
-
-The interface provides a comprehensive music analysis and discovery experience with detailed metadata visualization, search capabilities, and library management.
-
-<div align="center">
-  <img src="assets/readme/analysis.png" alt="Analysis" width="600" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-</div>
-
 ---
+
+# Getting Started
 
 #### Prerequisites
 
@@ -156,40 +128,15 @@ The interface provides a comprehensive music analysis and discovery experience w
     npm run dev
     ```
 
-# Download
+# Downloads
 
-<div align="center">
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify-setup.exe"><img src="assets/readme/win.png" alt="Windows Download" width="400"></a></td>
-    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify.dmg"><img src="assets/readme/mac.png" alt="macOS Download" width="400"></a></td>
-    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify_amd64.deb"><img src="assets/readme/lin.png" alt="Linux Download" width="400"></a></td>
-  </tr>
-</table>
-</div>
+- **Windows**: [Applify-setup.exe](https://github.com/Seplestr/Applify/releases/latest/download/Applify-setup.exe)
+- **macOS**: [Applify.dmg](https://github.com/Seplestr/Applify/releases/latest/download/Applify.dmg)
+- **Linux**: [Applify_amd64.deb](https://github.com/Seplestr/Applify/releases/latest/download/Applify_amd64.deb)
 
-# Contributing
+# Legal Notice
 
-### Read this before contributing
-
-- **Backend-First Approach:** All the core logic, tasks go in python backend, electron is just for UI and nothing else.
-
-- **Safety:** Do not mention or hardcode references to specific commercial music services in the code, UI text, or documentation except the ones I did (I'll remove it later anyways). The application should remain a generic music discovery and management tool.
-
-- **UI & UX Consistency:** This is a very familiar UI, so you already know where to take the designs from.
-
-- **Code Quality:** Follow the existing coding style and conventions. Use TypeScript for the frontend and Python type hints for the backend to maintain code quality and clarity. Add comments for any complex logic.
-
-<div align="center">
-  <img src="assets/readme/dis.png" width="100%">
-</div>
-<p align="center">
-  Let's Dive Deep.
-</p>
-
----
-
-### `I.` — The Nature of the Tool
+### The Nature of the Tool
 
 > It is important to note—this application is not a content service providing you with files, but a **tool**—a simple client for accessing peer-to-peer networks.
 
@@ -197,9 +144,7 @@ The interface provides a comprehensive music analysis and discovery experience w
 
 > I do not host, provide, or endorse any of the content you may find—this is not a repository holding data, but merely a **conduit**—connecting you to it.
 
----
-
-### `II.` — The Burden of the User
+### The Burden of the User
 
 > As a result—the responsibility for your actions does not lie with the developers, but rests solely and entirely upon **YOU**—and you alone.
 
@@ -207,9 +152,7 @@ The interface provides a comprehensive music analysis and discovery experience w
 
 > I am not the arbiters of your downloads—but you are the final and only judge of your own conduct. Every search, every download, every share—is not our decision, but yours.
 
----
-
-### `III.` — The Inevitable Conclusion
+### The Conclusion
 
 > In the event of any consequence—legal or otherwise—liability is not a shared concept that I partake in, but a personal burden you accept in full by using this software.
 
