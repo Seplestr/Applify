@@ -125,11 +125,6 @@ This is **not** a music streaming subscription service. We don't host, stream, o
     npm run dev
     ```
 
-# Downloads
-
-- **Windows**: [Applify-setup.exe](https://github.com/Seplestr/Applify/releases/latest/download/Applify-setup.exe)
-- **macOS**: [Applify.dmg](https://github.com/Seplestr/Applify/releases/latest/download/Applify.dmg)
-- **Linux**: [Applify_amd64.deb](https://github.com/Seplestr/Applify/releases/latest/download/Applify_amd64.deb)
 
 # Legal Notice
 
@@ -156,7 +151,3 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 > In conclusion—this is not an invitation to act without thought, but an explicit **demand** that you act with full awareness of your own responsibilities.
 
 ---
-
-<p align="center">
-  <em>— Proceed Accordingly. —</em>
-</p>
