@@ -2,9 +2,7 @@
 <p align="center">
   <em>A music exploration and discovery tool — <strong>Not</strong> a streaming service</em>
 </p>
-<p align="center">
-  <a href="https://discord.gg/Np7YYEVPhR"><img src="https://img.shields.io/discord/1411737769675329558"></a>
-</p>
+
 
 # What is Applify?
 
@@ -120,19 +118,19 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 4.  **Run the backend:**
 
     ```bash
+    # Make sure you're in the Applify root directory
     python backend/src/main.py
     ```
+    
+    The backend will start on `http://localhost:8000` and serve the FastAPI application with Soulseek integration for music discovery.
 
 5.  **Run the frontend:**
     ```bash
     npm run dev
     ```
+    
+    The frontend will start on `http://localhost:5173` (or another available port). The Electron app will connect to the backend API running on `localhost:8000`.
 
-# Downloads
-
-- **Windows**: [Applify-setup.exe](https://github.com/Seplestr/Applify/releases/latest/download/Applify-setup.exe)
-- **macOS**: [Applify.dmg](https://github.com/Seplestr/Applify/releases/latest/download/Applify.dmg)
-- **Linux**: [Applify_amd64.deb](https://github.com/Seplestr/Applify/releases/latest/download/Applify_amd64.deb)
 
 # Legal Notice
 
@@ -159,7 +157,3 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 > In conclusion—this is not an invitation to act without thought, but an explicit **demand** that you act with full awareness of your own responsibilities.
 
 ---
-
-<p align="center">
-  <em>— Proceed Accordingly. —</em>
-</p>
