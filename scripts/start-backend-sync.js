@@ -9,7 +9,10 @@ const http = require('http');
 const path = require('path');
 
 const backendDir = path.join(__dirname, '../backend');
-const pythonExecutable = path.join(backendDir, '.venv', 'Scripts', 'python.exe');
+const venvDir = path.join(backendDir, 'venv');
+const pythonExecutable = process.platform === 'win32'
+  ? path.join(venvDir, 'Scripts', 'python.exe')
+  : path.join(venvDir, 'bin', 'python');
 
 // Start the backend server
 const env = Object.assign({}, process.env);

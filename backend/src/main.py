@@ -31,7 +31,8 @@ def create_default_config_if_not_exists():
     if not os.path.exists(config_path):
         config = ConfigParser()
         documents_folder = get_documents_folder()
-        default_data_path = os.path.join(documents_folder, "Applify", "Songs")
+        parent_dir = os.path.join(documents_folder, "ApplifyData")
+        default_data_path = os.path.join(parent_dir, "Applify", "Songs")
         os.makedirs(default_data_path, exist_ok=True)
         
         config['Paths'] = {'dataPath': default_data_path}
@@ -58,7 +59,8 @@ data_path = load_data_path()
 if data_path is None:
     # This fallback is now less likely to be used, but kept for safety.
     documents_folder = get_documents_folder()
-    data_path = os.path.join(documents_folder, "Applify", "Songs")
+    parent_dir = os.path.join(documents_folder, "ApplifyData")
+    data_path = os.path.join(parent_dir, "Applify", "Songs")
     os.makedirs(data_path, exist_ok=True)
 
 config_file_path = os.path.join(data_path, "config.ini")

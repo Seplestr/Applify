@@ -16,8 +16,9 @@ def get_documents_folder():
         return os.path.expanduser("~/Documents")
 
 def get_config_path():
-    """Get the path to the config file in Documents/applify_config/pref.ini."""
+    """Get the path to the config file in Documents/ApplifyData/applify_config/pref.ini."""
     documents_folder = get_documents_folder()
-    config_dir = os.path.join(documents_folder, "applify_config")
+    parent_dir = os.path.join(documents_folder, "ApplifyData")
+    config_dir = os.path.join(parent_dir, "applify_config")
     os.makedirs(config_dir, exist_ok=True)
     return os.path.join(config_dir, "pref.ini")

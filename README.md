@@ -112,26 +112,27 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 
 #### Running the Application
 
-**Terminal 1 - Start the Backend:**
+To run Applify, you need to start both the backend and frontend services. This is easily done by running the same command in two separate terminals.
+
+**Why two terminals?**
+Applify has two main parts:
+1.  **The Python Backend**: Handles all the logic for searching, downloading, and managing music.
+2.  **The Electron Frontend**: The user interface you interact with.
+
+You need to run `npm run dev` in two separate terminals from the project root:
+
+*   **Terminal 1**: The first time you run `npm run dev`, it will start the Python backend server.
+*   **Terminal 2**: The second time you run `npm run dev`, it will start the Electron frontend application, which will then connect to the backend.
 
 ```bash
-# Make sure the virtual environment is activated
-backend\venv\Scripts\activate
+# In your first terminal
+npm run dev
 
-# Run the FastAPI server
-python backend/src/main.py
-```
-
-The backend will start on `http://localhost:8000` and handle all music discovery, search, and playback functionality.
-
-**Terminal 2 - Start the Frontend:**
-
-```bash
-# In a new terminal from the project root
+# In your second terminal
 npm run dev
 ```
 
-The Electron app will launch automatically and connect to the backend API. The development server runs on `http://localhost:5173`.
+> **Note on Data Location**: By default, Applify stores all its data (like your music library and settings) in a folder named `ApplifyData` inside your user's `Documents` directory. You can change this location later in the application's settings.
 
 # Legal Notice
 
