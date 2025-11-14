@@ -6,19 +6,81 @@
   <a href="https://discord.gg/Np7YYEVPhR"><img src="https://img.shields.io/discord/1411737769675329558"></a>
 </p>
 
-<h3 align="center"><b>Preserve, Archive, share, analyse and enjoy high quality music</b></h3>
+<h3 align="center"><b>🎵 Discover, Explore, Archive & Analyze Music</b></h3>
+<p align="center">
+  <em>A music exploration and discovery tool — <strong>Not</strong> a streaming service</em>
+</p>
 
-# Download
+# What is Applify?
+
+Applify is a **music discovery and exploration platform**—a sophisticated client for searching, discovering, and analyzing music from peer-to-peer networks. Think of it as Google for music exploration, not Spotify. 
+
+This is **not** a music streaming subscription service. We don't host, stream, or provide any music ourselves. Instead, Applify is a powerful discovery tool that helps you explore vast music libraries, search across networks, manage your music collection, and analyze track metadata—all while maintaining complete control over your music experience.
+
+> **TL;DR:** This is a music explorer's playground, not a replacement for streaming services.
+
+---
+
+# Tech Stack
 
 <div align="center">
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify-setup.exe"><img src="assets/readme/win.png" alt="Windows Download" width="400"></a></td>
-    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify.dmg"><img src="assets/readme/mac.png" alt="macOS Download" width="400"></a></td>
-    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify_amd64.deb"><img src="assets/readme/lin.png" alt="Linux Download" width="400"></a></td>
-  </tr>
-</table>
+
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | TypeScript, React, Electron, Material-UI (MUI) |
+| **Backend** | Python, Flask/FastAPI, Asyncio |
+| **Desktop** | Electron with Vite for bundling |
+| **State Management** | React Context API, Custom Hooks |
+| **Styling** | CSS Modules, Global CSS, MUI5 theming |
+| **Internationalization** | i18n with multi-language support |
+| **Build Tools** | Vite, electron-builder, npm, pip |
+| **OS Support** | Windows, macOS, Linux |
+
 </div>
+
+---
+
+# Features
+
+## 🔍 Discovery & Search
+- **Full-text search** across peer-to-peer music networks
+- **Advanced filtering** by artist, album, year, and metadata
+- **Real-time search results** with instant UI updates
+- **Search history** and recently played tracks
+
+## 🎼 Music Management
+- **Library management** — organize and manage your music collection
+- **Playlist creation & editing** — build custom playlists
+- **Metadata editing** — view and modify track information
+- **Cover art extraction** and caching for visual browsing
+
+## 🎵 Playback & Control
+- **Full playback control** — play, pause, skip, seek through tracks
+- **Playback queue management** — organize next tracks to play
+- **Playlist-based playback** — dedicated playback for playlists
+- **Playback history** — track what you've recently listened to
+
+## 🎤 Lyrics & Information
+- **Integrated lyrics display** — view song lyrics while playing
+- **Song details sidebar** — comprehensive track information
+- **Artist and album information** — explore metadata
+- **Metadata modal** — detailed view of all track information
+
+## 📱 User Experience
+- **Dark/Light theme support** — customizable interface themes
+- **Multi-language support** — i18n ready for global users
+- **Responsive design** — works on desktop across Windows, macOS, and Linux
+- **Status indicator** — system and connection status monitoring
+- **Recently played section** — quick access to your listening history
+
+## 💾 Advanced Features
+- **Local session caching** — faster loading and offline browsing
+- **Cover cache system** — efficient image management
+- **Download management** — track and manage downloads
+- **Context menus** — right-click options for songs and playlists
+- **Popover information** — quick info popups without page navigation
+
+---
 
 # Build From Source
 
@@ -36,6 +98,16 @@
 2. Open your browser and go to [applify.dior.com](http://applify.dior.com), I have tested on four browsers - Edge, Chrome support it and Safari, Brave don't
 3. Enjoy, and please don't spam about framework
 </details>
+
+# Screenshots
+
+The interface provides a comprehensive music analysis and discovery experience with detailed metadata visualization, search capabilities, and library management.
+
+<div align="center">
+  <img src="assets/readme/analysis.png" alt="Analysis" width="600" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+</div>
+
+---
 
 #### Prerequisites
 
@@ -84,15 +156,15 @@
     npm run dev
     ```
 
-# Features
+# Download
 
 <div align="center">
-<table cellpadding="15">
-  <tr><td align="center"><img src="assets/readme/analysis.png" alt="Library" width="600" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></td></tr>
-  <tr><td align="center"><img src="assets/readme/search.png" alt="Search" width="600" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></td></tr>
-  <tr><td align="center"><img src="assets/readme/lyrics.png" alt="Lyrics" width="600" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></td></tr>
-  <tr><td align="center"><img src="assets/readme/library.png" alt="Library" width="600" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></td></tr>
-  <tr><td align="center"><img src="assets/readme/playlist.png" alt="Playlist" width="600" style="box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></td></tr>
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify-setup.exe"><img src="assets/readme/win.png" alt="Windows Download" width="400"></a></td>
+    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify.dmg"><img src="assets/readme/mac.png" alt="macOS Download" width="400"></a></td>
+    <td align="center"><a href="https://github.com/DIOR/Applify/releases/latest/download/Applify_amd64.deb"><img src="assets/readme/lin.png" alt="Linux Download" width="400"></a></td>
+  </tr>
 </table>
 </div>
 
