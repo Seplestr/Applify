@@ -2,9 +2,6 @@
 <p align="center">
   <em>A music exploration and discovery tool — <strong>Not</strong> a streaming service</em>
 </p>
-<p align="center">
-  <a href="https://discord.gg/Np7YYEVPhR"><img src="https://img.shields.io/discord/1411737769675329558"></a>
-</p>
 
 # What is Applify?
 
