@@ -118,7 +118,7 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 # Make sure the virtual environment is activated
 backend\venv\Scripts\activate
 
-# Run the FastAPI server with Soulseek integration
+# Run the FastAPI server
 python backend/src/main.py
 ```
 
