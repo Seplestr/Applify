@@ -1,0 +1,153 @@
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+  /* Base layout adjustments */
+  body {
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Improved touch targets */
+  button, 
+  [role="button"],
+  .headerLi,
+  .collapsedIcon,
+  .thumbnail {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px;
+    touch-action: manipulation;
+  }
+
+  /* Sidebar adjustments */
+  .wrapperNavbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 1000;
+    background-color: var(--secondary-black);
+    padding: 8px 0;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .wrapperNavbar.collapsed {
+    height: auto;
+  }
+
+  /* Hide desktop-only elements */
+  .toggleButton,
+  .sectionHeader {
+    display: none;
+  }
+
+  /* Mobile navigation */
+  .ulNavigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .headerLi {
+    flex-direction: column;
+    padding: 8px;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .headerI {
+    margin: 0 0 4px 0;
+    font-size: 24px !important;
+  }
+
+  /* Content area adjustments */
+  .recentlyPlayedSection {
+    margin-bottom: 72px; /* Space for bottom navigation */
+  }
+
+  /* Touch-friendly scrolling */
+  .ulPlaylist {
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(100vh - 180px);
+    padding: 8px;
+  }
+
+  /* Improved tap targets for playlist items */
+  .ulPlaylist li {
+    padding: 12px 8px;
+    margin: 4px 0;
+  }
+
+  /* Hide scrollbars on mobile while preserving functionality */
+  .ulPlaylist::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  /* Mobile-friendly thumbnails */
+  .thumbnailGrid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px;
+  }
+
+  .thumbnail {
+    width: 64px;
+    height: 64px;
+  }
+
+  /* Safe area insets for modern mobile browsers */
+  @supports (padding: max(0px)) {
+    .wrapperNavbar {
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+      background-color: var(--secondary-black);
+    }
+  }
+}
+
+/* Handle landscape orientation */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .wrapperNavbar {
+    padding: 4px 0;
+  }
+
+  .headerLi {
+    flex-direction: row;
+    font-size: 14px;
+    align-items: center;
+  }
+
+  .headerI {
+    margin: 0 8px 0 0;
+    font-size: 20px !important;
+  }
+}
+
+/* Neutralize desktop-only window drag regions and large fixed sizes on mobile */
+@media screen and (max-width: 768px) {
+  * {
+    /* remove any app-region behavior on mobile */
+    -webkit-app-region: unset !important;
+  }
+
+  /* Avoid fixed width sidebars covering content */
+  .leftSidebar,
+  .rightSidebar,
+  .wrapperNavbar {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative !important;
+    height: auto !important;
+  }
+
+  .headerLi {
+    border-radius: 8px;
+  }
+}
