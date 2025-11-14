@@ -24,9 +24,8 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 | **Desktop** | Electron with Vite for bundling |
 | **State Management** | React Context API, Custom Hooks |
 | **Styling** | CSS Modules, Global CSS, MUI5 theming |
-| **Internationalization** | i18n with multi-language support |
 | **Build Tools** | Vite, electron-builder, npm, pip |
-| **OS Support** | Windows, macOS, Linux |
+| **OS Support** | Windows |
 
 </div>
 
@@ -61,7 +60,7 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 ## 📱 User Experience
 - **Dark/Light theme support** — customizable interface themes
 - **Multi-language support** — i18n ready for global users
-- **Responsive design** — works on desktop across Windows, macOS, and Linux
+- **Responsive design** — optimized for Windows desktop
 - **Status indicator** — system and connection status monitoring
 - **Recently played section** — quick access to your listening history
 
@@ -83,16 +82,16 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 - [Node.js](https://nodejs.org/) (v18+ recommended) and npm
 - [Python](https://www.python.org/downloads/) (v3.9+ recommended) and pip
 
-#### Installation & Running
+#### Installation Steps
 
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/DIOR/Applify.git
+    git clone https://github.com/Seplestr/Applify.git
     cd Applify
     ```
 
-2.  **Install frontend dependencies:**
+2.  **Install Node.js dependencies:**
 
     ```bash
     npm install
@@ -101,32 +100,38 @@ This is **not** a music streaming subscription service. We don't host, stream, o
 3.  **Set up the Python backend:**
 
     ```bash
-    # Create and activate a virtual environment (recommended)
+    # Create a virtual environment
     python -m venv backend/venv
 
-    # On macOS/Linux:
-    source backend/venv/bin/activate
-
-    # On Windows:
+    # Activate the virtual environment
     backend\venv\Scripts\activate
 
-    # Install backend dependencies
+    # Install Python dependencies
     pip install -r backend/requirements.txt
     ```
 
-4.  **Run the backend:**
+#### Running the Application
 
-    ```bash
-    # Make sure you're in the Applify root directory
-    python backend/src/main.py
-    ```
-    
-    The backend will start on `http://localhost:8000` and serve the FastAPI application with Soulseek integration for music discovery.
+**Terminal 1 - Start the Backend:**
 
-5.  **Run the frontend:**
-    ```bash
-    npm run dev
-    ```
+```bash
+# Make sure the virtual environment is activated
+backend\venv\Scripts\activate
+
+# Run the FastAPI server with Soulseek integration
+python backend/src/main.py
+```
+
+The backend will start on `http://localhost:8000` and handle all music discovery, search, and playback functionality.
+
+**Terminal 2 - Start the Frontend:**
+
+```bash
+# In a new terminal from the project root
+npm run dev
+```
+
+The Electron app will launch automatically and connect to the backend API. The development server runs on `http://localhost:5173`.
 
 # Legal Notice
 
