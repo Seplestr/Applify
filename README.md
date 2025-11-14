@@ -158,3 +158,7 @@ The Electron app will launch automatically and connect to the backend API. The d
 > In conclusion—this is not an invitation to act without thought, but an explicit **demand** that you act with full awareness of your own responsibilities.
 
 ---
+
+<p align="center">
+  Made with ❤️ by duru
+</p>
