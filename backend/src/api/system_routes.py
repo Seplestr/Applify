@@ -20,17 +20,17 @@ romanization_service: RomanizationService
 data_path: str
 
 @router.get("/")
-async def root():
+def root():
     """Root endpoint."""
     return {"message": "Applify API is running"}
 
 @router.get("/health")
-async def health_check():
+def health_check():
     """Health check endpoint."""
     return {"status": "healthy", "soulseek_connected": soulseek_manager.logged_in}
 
 @router.get("/download-dir")
-async def get_download_dir():
+def get_download_dir():
     """Get the download directory path."""
     try:
         download_dir = config.sections["transfers"]["downloaddir"]
@@ -39,13 +39,20 @@ async def get_download_dir():
         raise HTTPException(status_code=404, detail="Download directory not configured")
 
 @router.get("/play-file/{file_name}")
-async def play_file(file_name: str):
+def play_file(file_name: str):
     """Stream an audio file for playback."""
     download_dir = config.sections["transfers"]["downloaddir"]
     file_path = os.path.join(download_dir, file_name)
     
     if not os.path.exists(file_path):
-        raise HTTPException(status_code=404, detail="File not found")
+        found = False
+        for root, dirs, files in os.walk(download_dir):
+            if file_name in files:
+                file_path = os.path.join(root, file_name)
+                found = True
+                break
+        if not found:
+            raise HTTPException(status_code=404, detail="File not found")
     
     ext = os.path.splitext(file_name)[1].lower()
     mime_types = {
@@ -71,7 +78,7 @@ async def play_file(file_name: str):
     )
 
 @router.post("/show-in-explorer")
-async def show_in_explorer(request: ShowInExplorerRequest):
+def show_in_explorer(request: ShowInExplorerRequest):
     """Show a file in the default file explorer."""
     download_dir = config.sections["transfers"]["downloaddir"]
     file_path = os.path.join(download_dir, request.filePath)
@@ -92,7 +99,7 @@ async def show_in_explorer(request: ShowInExplorerRequest):
         raise HTTPException(status_code=500, detail=f"An error occurred while opening the file explorer: {e}")
 
 @router.get("/sharing/status")
-async def get_sharing_status():
+def get_sharing_status():
     """Get current sharing status and statistics."""
     try:
         download_dir = config.sections["transfers"]["downloaddir"]
@@ -128,12 +135,13 @@ async def get_sharing_status():
         raise HTTPException(status_code=500, detail="Failed to get sharing status")
 
 @router.post("/sharing/rescan")
-async def rescan_shares():
+def rescan_shares():
     """Manually trigger a rescan of shared folders."""
     try:
         if hasattr(core, 'shares') and core.shares:
             events.emit_main_thread("shares-scanning")
-            core.shares.rescan_shares()
+            with soulseek_manager.lock:
+                core.shares.rescan_shares()
             return {"message": "Share rescan initiated"}
         else:
             return {"message": "Shares system not available"}
@@ -141,7 +149,7 @@ async def rescan_shares():
         raise HTTPException(status_code=500, detail="Failed to rescan shares")
 
 @router.get("/connection/status")
-async def get_connection_status():
+def get_connection_status():
     """Get detailed connection status and diagnostics."""
     try:
         status = {
@@ -162,7 +170,7 @@ async def get_connection_status():
         raise HTTPException(status_code=500, detail="Failed to get connection status")
 
 @router.post("/romanize")
-async def romanize_text(request: RomanizeRequest):
+def romanize_text(request: RomanizeRequest):
     """Romanize text using uroman."""
     try:
         romanized_text = romanization_service.romanize(request.text)
@@ -171,7 +179,7 @@ async def romanize_text(request: RomanizeRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/cover/{image_path:path}")
-async def get_cover_image(image_path: str):
+def get_cover_image(image_path: str):
     """Serve a cover image from the local covers directory."""
     covers_dir = os.path.join(data_path, "covers")
     file_path = os.path.join(covers_dir, image_path)
@@ -185,7 +193,7 @@ from configparser import ConfigParser
 from core.config_utils import get_config_path
 
 @router.get("/config")
-async def get_config():
+def get_config():
     """Get the application configuration."""
     config_path = get_config_path()
     if not os.path.exists(config_path):
@@ -201,7 +209,7 @@ async def get_config():
     return {"dataPath": data_path}
 
 @router.post("/config")
-async def save_config(request: ConfigRequest):
+def save_config(request: ConfigRequest):
     """Save the application configuration."""
     logging.info(f"Received request to save config: {request}")
     try:

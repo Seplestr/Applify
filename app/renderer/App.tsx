@@ -37,7 +37,7 @@ const AppContent = () => {
   }
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
-  const [isAutoCollapsed, setIsAutoCollapsed] = useState(false)
+  const [_isAutoCollapsed, setIsAutoCollapsed] = useState(false)
 
   const toggleSidebarCollapse = () => {
     setIsSidebarCollapsed((prev) => !prev)
@@ -55,18 +55,23 @@ const AppContent = () => {
   }
 
   useEffect(() => {
+    let prevWidth = window.innerWidth
+
     const handleResize = () => {
       const windowWidth = window.innerWidth
+      const wasMobile = prevWidth < 1000
+      const isMobile = windowWidth < 1000
 
-      if (windowWidth < 1000) {
-        if (!isSidebarCollapsed && !isAutoCollapsed) {
+      if (wasMobile !== isMobile) {
+        if (isMobile) {
           setIsSidebarCollapsed(true)
           setIsAutoCollapsed(true)
+        } else {
+          setIsSidebarCollapsed(false)
+          setIsAutoCollapsed(false)
         }
-      } else if (isAutoCollapsed) {
-        setIsSidebarCollapsed(false)
-        setIsAutoCollapsed(false)
       }
+      prevWidth = windowWidth
     }
 
     handleResize()
@@ -76,7 +81,7 @@ const AppContent = () => {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [isSidebarCollapsed, isAutoCollapsed])
+  }, [])
 
   useEffect(() => {
     songDataService.initialize()

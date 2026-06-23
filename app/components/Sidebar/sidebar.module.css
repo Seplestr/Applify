@@ -32,8 +32,9 @@
 }
 
 .collapsedContainer .sectionHeader {
-  padding: 16px 8px 8px 8px;
+  padding: 16px 0 8px 0;
   justify-content: center;
+  width: 100%;
 }
 
 .recentsTitle {
@@ -99,7 +100,7 @@
   width: 40px;
   height: 40px;
   color: var(--secondary-white);
-  background-color: var(--secondary-black);
+  background-color: transparent;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -108,7 +109,7 @@
 
 .collapsedIcon:hover {
   color: var(--pure-white);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--hover-white);
   transform: scale(1.05);
 }
 
@@ -330,7 +331,7 @@
 .collapsedContainer {
   background-color: var(--secondary-black) !important;
   border-radius: 12px !important;
-  padding: 8px !important;
+  padding: 8px 0 !important;
 }
 
 .playlistUlWrapper {

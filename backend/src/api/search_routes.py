@@ -9,7 +9,7 @@ router = APIRouter()
 soulseek_manager: SoulseekManager
 
 @router.get("/search")
-async def search(provider: str, q: str):
+def search(provider: str, q: str):
     """
     Performs a search using the specified provider.
     """
@@ -24,7 +24,7 @@ async def search(provider: str, q: str):
     return results
 
 @router.post("/search/soulseek")
-async def search_files(query: SearchQuery):
+def search_files(query: SearchQuery):
     """Start a search on Soulseek network with fallback logic."""
     if not soulseek_manager.logged_in:
         raise HTTPException(status_code=503, detail="Not connected to Soulseek")
@@ -48,11 +48,10 @@ search_completion_status = {}
 last_result_count = {}
 
 @router.get("/search/soulseek/results/{token}")
-async def get_search_results(token: int):
+def get_search_results(token: int):
     """Get current search results for a given token."""
-    events.process_thread_events()
-    
-    results = soulseek_manager.search_results.get(token, [])
+    with soulseek_manager.lock:
+        results = list(soulseek_manager.search_results.get(token, []))
     formatted_results = [
         SearchResult(
             path=result['path'],

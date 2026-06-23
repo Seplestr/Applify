@@ -25,6 +25,7 @@ class SoulseekManager:
         self.download_status = {}
         self.search_tokens = {}
         self.active_downloads = {}
+        self.lock = threading.RLock()
 
     def on_login(self, msg):
         if msg.success:
@@ -188,7 +189,9 @@ class SoulseekManager:
             if self.logged_in:
                 return True
             
-            if not events.process_thread_events():
+            with self.lock:
+                has_events = events.process_thread_events()
+            if not has_events:
                 break
             time.sleep(0.1)
                 
@@ -196,29 +199,34 @@ class SoulseekManager:
 
     def process_events(self):
         while True:
-            events.process_thread_events()
+            with self.lock:
+                events.process_thread_events()
             time.sleep(0.1)
 
     def perform_search_with_fallback(self, artist: Optional[str], song: Optional[str], raw_query: str) -> tuple[int, str]:
-        self.search_results.clear()
+        with self.lock:
+            self.search_results.clear()
         
         if artist and song:
             search_term = f"{artist} {song}"
-            core.search.do_search(search_term, "global")
+            with self.lock:
+                core.search.do_search(search_term, "global")
+                tokens = list(core.search.searches.keys())
             
-            tokens = list(core.search.searches.keys())
             if tokens:
                 token = tokens[-1]
                 
                 time.sleep(3)
-                events.process_thread_events()
+                with self.lock:
+                    has_results = bool(self.search_results.get(token, []))
                 
-                if self.search_results.get(token, []):
+                if has_results:
                     return token, search_term
         
-        core.search.do_search(raw_query, "global")
+        with self.lock:
+            core.search.do_search(raw_query, "global")
+            tokens = list(core.search.searches.keys())
         
-        tokens = list(core.search.searches.keys())
         if tokens:
             token = tokens[-1]
             return token, raw_query

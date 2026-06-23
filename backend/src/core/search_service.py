@@ -70,8 +70,12 @@ def search_apple_music(search_term):
         if not script_tag:
             return {"error": "Could not find the data script tag."}
 
-        data = json.loads(script_tag.string)[0]
-        sections = data.get('data', {}).get('sections', [])
+        data = json.loads(script_tag.string)
+        inner_data = data[0] if isinstance(data, list) else data
+        data_list = inner_data.get('data', []) if isinstance(inner_data, dict) else []
+        first_item = data_list[0] if isinstance(data_list, list) and len(data_list) > 0 else {}
+        inner_data = first_item.get('data', first_item) if 'data' in first_item else first_item
+        sections = inner_data.get('sections', [])
         
         if not sections:
             return {"error": "No search results found."}

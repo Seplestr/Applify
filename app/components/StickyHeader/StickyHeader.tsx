@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import styles from './stickyHeader.module.css'
 import appIcon from '../../../assets/icon.png'
 import SystemStatusIndicator from '../SystemStatusIndicator/SystemStatusIndicator'
-import { useTheme } from '../../providers/ThemeProvider'
 
 interface PropsStickyHeader {
   closeSidebar?: () => void
@@ -231,14 +230,6 @@ export default function StickyHeader({ closeSidebar }: PropsStickyHeader) {
 
           {/* Settings icon on the right of search */}
           <div className={styles.rightNavigation}>
-            <button
-              type="button"
-              className={styles.navButton}
-              onClick={useTheme().toggleTheme}
-              title={useTheme().theme === 'dark' ? t('stickyHeader.lightMode') : t('stickyHeader.darkMode')}
-            >
-              <i className={`fa-solid ${useTheme().theme === 'dark' ? 'fa-sun' : 'fa-moon'}`} />
-            </button>
             <button
               type="button"
               className={`${styles.navButton} ${isActiveRoute('/settings') ? styles.active : ''}`}

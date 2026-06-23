@@ -29,24 +29,39 @@ const backend = spawn(pythonExecutable, ['-m', 'uvicorn', 'src.main:app', '--hos
 function checkBackendReady(callback) {
   const maxAttempts = 30;
   let attempts = 0;
+  let resolved = false;
 
   const tryConnect = () => {
-    http.get('http://127.0.0.1:8000/docs', (res) => {
+    if (resolved) return;
+
+    const req = http.get('http://127.0.0.1:8000/docs', (res) => {
+      res.resume(); // Consume response data to free up socket
       if (res.statusCode === 200) {
-        console.log('Backend is ready!');
-        callback(null);
+        if (!resolved) {
+          resolved = true;
+          console.log('Backend is ready!');
+          callback(null);
+        }
       } else {
         retry();
       }
-    }).on('error', retry);
+    });
+
+    req.on('error', () => {
+      retry();
+    });
   };
 
   const retry = () => {
+    if (resolved) return;
     attempts++;
     if (attempts < maxAttempts) {
       setTimeout(tryConnect, 1000);
     } else {
-      callback(new Error('Backend did not start in time.'));
+      if (!resolved) {
+        resolved = true;
+        callback(new Error('Backend did not start in time.'));
+      }
     }
   };
 

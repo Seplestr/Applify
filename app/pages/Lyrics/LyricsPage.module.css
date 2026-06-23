@@ -1,6 +1,6 @@
 .lyricsPage {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: var(--secondary-black);
   overflow: hidden;
 }
@@ -16,7 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   gap: 24px;
 }
 
@@ -46,7 +46,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   gap: 24px;
   text-align: center;
   padding: 40px;

@@ -18,6 +18,7 @@ export default [
       '.prettierrc',
       'assets/assets.d.ts',
       'scripts/build-backend.js',
+      'scripts/start-backend-sync.js',
       'backend/venv/**',
     ],
   },

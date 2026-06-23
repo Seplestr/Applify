@@ -8,6 +8,7 @@ interface LyricsDisplayProps {
   lyrics: ParsedLyric[]
   plainLyrics: string
   currentTime: number
+  duration: number
   isPlaying: boolean
   colorPalette: ColorPalette
   onSeek?: (time: number) => void
@@ -41,6 +42,7 @@ const LyricsDisplay: React.FC<LyricsDisplayProps> = ({
   lyrics,
   plainLyrics,
   currentTime,
+  duration,
   isPlaying,
   colorPalette,
   onSeek,
@@ -106,25 +108,68 @@ const LyricsDisplay: React.FC<LyricsDisplayProps> = ({
     }
   }, [currentTime, isPlaying, currentLyricIndex, findCurrentLyricIndex])
 
-  // Auto-scroll to current lyric
+  const [userScrolled, setUserScrolled] = useState(false)
+  const userScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleContainerScroll = () => {
+    setUserScrolled(true)
+    if (userScrollTimeoutRef.current) {
+      clearTimeout(userScrollTimeoutRef.current)
+    }
+    userScrollTimeoutRef.current = setTimeout(() => {
+      setUserScrolled(false)
+    }, 5000) // resume auto-scroll after 5 seconds of scroll inactivity
+  }
+
+  // Clean up timer on unmount
   useEffect(() => {
-    if (currentLyricIndex >= 0 && activeLyricRef.current && containerRef.current) {
-      const container = containerRef.current
-      const activeLyric = activeLyricRef.current
+    return () => {
+      if (userScrollTimeoutRef.current) {
+        clearTimeout(userScrollTimeoutRef.current)
+      }
+    }
+  }, [])
 
-      // Calculate the position to center the active lyric
-      const containerHeight = container.clientHeight
-      const activeLyricTop = activeLyric.offsetTop
-      const activeLyricHeight = activeLyric.clientHeight
+  // Auto-scroll to current lyric (synced lyrics)
+  useEffect(() => {
+    if (containerRef.current) {
+      if (currentLyricIndex >= 0 && activeLyricRef.current) {
+        const container = containerRef.current
+        const activeLyric = activeLyricRef.current
 
-      const scrollPosition = activeLyricTop - containerHeight / 2.5 + activeLyricHeight / 2
+        const containerHeight = container.clientHeight
+        const activeLyricTop = activeLyric.offsetTop
+        const activeLyricHeight = activeLyric.clientHeight
 
-      container.scrollTo({
-        top: Math.max(0, scrollPosition),
-        behavior: 'smooth',
-      })
+        const scrollPosition = activeLyricTop - containerHeight / 2.5 + activeLyricHeight / 2
+
+        container.scrollTo({
+          top: Math.max(0, scrollPosition),
+          behavior: 'smooth',
+        })
+      } else if (currentLyricIndex === -1) {
+        containerRef.current.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        })
+      }
     }
   }, [currentLyricIndex])
+
+  // Auto-scroll plain lyrics based on progress percentage
+  useEffect(() => {
+    if (lyrics.length === 0 && plainLyrics && containerRef.current && duration > 0 && !userScrolled) {
+      const container = containerRef.current
+      const progressPercent = currentTime / duration
+      const scrollableHeight = container.scrollHeight - container.clientHeight
+      if (scrollableHeight > 0) {
+        container.scrollTo({
+          top: scrollableHeight * progressPercent,
+          behavior: 'smooth',
+        })
+      }
+    }
+  }, [currentTime, duration, lyrics.length, plainLyrics, userScrolled])
 
   // Handle seeking when clicking on a lyric
   const handleLyricClick = (lyric: ParsedLyric) => {
@@ -189,6 +234,7 @@ const LyricsDisplay: React.FC<LyricsDisplayProps> = ({
     <div
       className={styles.lyricsContainer}
       ref={containerRef}
+      onScroll={handleContainerScroll}
       style={{
         backgroundColor: colorPalette.background,
       }}

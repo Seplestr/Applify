@@ -12,7 +12,7 @@ library_service: LibraryService
 playlist_service: PlaylistService
 
 @router.post("/playlists", response_model=Playlist)
-async def create_playlist(request: CreatePlaylistRequest):
+def create_playlist(request: CreatePlaylistRequest):
     playlist_id = str(uuid.uuid4())
     now = datetime.utcnow().isoformat()
 
@@ -30,18 +30,18 @@ async def create_playlist(request: CreatePlaylistRequest):
     return library_service.create_playlist(playlist)
 
 @router.get("/playlists", response_model=List[Playlist])
-async def get_all_playlists():
+def get_all_playlists():
     return library_service.get_all_playlists()
 
 @router.get("/playlists/{playlist_id}", response_model=Playlist)
-async def get_playlist(playlist_id: str):
+def get_playlist(playlist_id: str):
     playlist = library_service.get_playlist(playlist_id)
     if not playlist:
         raise HTTPException(status_code=404, detail="Playlist not found")
     return playlist
 
 @router.put("/playlists/{playlist_id}", response_model=Playlist)
-async def update_playlist(playlist_id: str, request: UpdatePlaylistRequest):
+def update_playlist(playlist_id: str, request: UpdatePlaylistRequest):
     updates = request.dict(exclude_unset=True)
     if 'thumbnail' in updates and updates['thumbnail']:
         playlist = library_service.get_playlist(playlist_id)
@@ -52,14 +52,14 @@ async def update_playlist(playlist_id: str, request: UpdatePlaylistRequest):
     return library_service.update_playlist(playlist_id, updates)
 
 @router.delete("/playlists/{playlist_id}", status_code=204)
-async def delete_playlist(playlist_id: str):
+def delete_playlist(playlist_id: str):
     library_service.delete_playlist(playlist_id)
     return
 
 @router.post("/playlists/{playlist_id}/songs", response_model=Playlist)
-async def add_song_to_playlist(playlist_id: str, request: AddSongToPlaylistRequest):
+def add_song_to_playlist(playlist_id: str, request: AddSongToPlaylistRequest):
     return library_service.add_song_to_playlist(playlist_id, request.song_path)
 
 @router.delete("/playlists/{playlist_id}/songs/{song_path:path}", response_model=Playlist)
-async def remove_song_from_playlist(playlist_id: str, song_path: str):
+def remove_song_from_playlist(playlist_id: str, song_path: str):
     return library_service.remove_song_from_playlist(playlist_id, song_path)

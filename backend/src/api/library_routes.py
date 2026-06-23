@@ -20,31 +20,76 @@ song_processor: SongProcessor
 
 
 @router.get("/library/songs")
-async def get_library_songs():
+def get_library_songs():
     """Get all songs from the library."""
     return library_service.get_all_songs()
 
 @router.get("/library/lyrics")
-async def get_lyrics(filePath: str = FastQuery(...)):
-    """Get lyrics for a specific song from the local cache."""
+def get_lyrics(filePath: str = FastQuery(...)):
+    """Get lyrics for a specific song from the local cache, falling back to an on-demand lrclib search."""
     logging.info(f"Received request for lyrics for file path: {filePath}")
     
-    # Use the absolute path from the song processor to query the lyrics table
     music_directory = config.sections["transfers"]["downloaddir"]
     absolute_path = os.path.join(music_directory, filePath)
     
     Lyrics = TinyDBQuery()
     lyrics_data = library_service.lyrics_table.get(Lyrics.file_path == absolute_path)
     
-    if not lyrics_data:
-        logging.info(f"Lyrics not found in local cache for: {absolute_path}")
-        raise HTTPException(status_code=404, detail="Lyrics not found in local cache.")
+    if lyrics_data:
+        logging.info(f"Found lyrics in local cache for: {absolute_path}")
+        return lyrics_data
+        
+    # If not found in cache, look up song metadata from songs database
+    SongQuery = TinyDBQuery()
+    song_data = library_service.songs_table.get(SongQuery.path == filePath)
     
-    logging.info(f"Found lyrics in local cache for: {absolute_path}")
-    return lyrics_data
+    artist = None
+    title = None
+    if song_data and 'metadata' in song_data:
+        artist = song_data['metadata'].get('artist')
+        title = song_data['metadata'].get('title')
+        
+    # Fallback to extracting metadata from filename
+    if not artist or not title:
+        filename = os.path.basename(absolute_path)
+        extracted = library_service.metadata_service.extract_metadata_from_filename(filename)
+        artist = extracted.get('artist')
+        title = extracted.get('title')
+        
+    if artist and title:
+        try:
+            logging.info(f"On-demand fetching lyrics from lrclib for: Title='{title}', Artist='{artist}'")
+            import requests
+            lrc_url = "https://lrclib.net/api/get"
+            params = {'artist_name': artist, 'track_name': title}
+            response = requests.get(lrc_url, params=params, timeout=10)
+            
+            if response.status_code == 200 and response.content:
+                lrc_data = response.json()
+                if lrc_data and (lrc_data.get('syncedLyrics') or lrc_data.get('plainLyrics')):
+                    plain_lyrics = lrc_data.get('plainLyrics')
+                    synced_lyrics = lrc_data.get('syncedLyrics')
+                    
+                    plain_lyrics_romanized = song_processor.romanization_service.romanize(plain_lyrics) if plain_lyrics else None
+                    synced_lyrics_romanized = song_processor.romanization_service.romanize(synced_lyrics) if synced_lyrics else None
+                    
+                    lyrics_data = {
+                        'file_path': absolute_path,
+                        'plain_lyrics': plain_lyrics,
+                        'synced_lyrics': synced_lyrics,
+                        'plain_lyrics_romanized': plain_lyrics_romanized,
+                        'synced_lyrics_romanized': synced_lyrics_romanized,
+                    }
+                    library_service.upsert_lyrics(lyrics_data, absolute_path)
+                    logging.info(f"Successfully fetched on-demand and cached lyrics for '{os.path.basename(absolute_path)}'")
+                    return lyrics_data
+        except Exception as e:
+            logging.error(f"Error fetching on-demand lyrics for {filePath}: {e}")
+            
+    raise HTTPException(status_code=404, detail="Lyrics not found in cache or online.")
 
 @router.post("/library/sync")
-async def sync_library():
+def sync_library():
     """Synchronize the library with the file system."""
     db_files = {song['path'] for song in library_service.get_all_songs()}
     
@@ -65,7 +110,7 @@ async def sync_library():
     return {"message": "Sync completed", "new": len(new_files), "deleted": len(deleted_files)}
 
 @router.get("/library/songs/pending-review")
-async def get_songs_pending_review():
+def get_songs_pending_review():
     """Get all songs that are pending metadata review."""
     songs = library_service.get_all_songs()
     pending_review = [
@@ -76,7 +121,7 @@ async def get_songs_pending_review():
 
 
 @router.post("/library/songs/process")
-async def process_library_song(request: ShowInExplorerRequest):
+def process_library_song(request: ShowInExplorerRequest):
     """
     Triggers the full metadata processing logic for a single song file already in the library.
     """
@@ -124,7 +169,7 @@ def run_forensic_analysis(file_path: str, output_path: str):
 
 
 @router.post("/library/songs/generate-forensics")
-async def generate_forensics_for_song(request: ShowInExplorerRequest, background_tasks: BackgroundTasks):
+def generate_forensics_for_song(request: ShowInExplorerRequest, background_tasks: BackgroundTasks):
     """
     Triggers a background task to generate and open a forensic analysis image.
     """

@@ -17,7 +17,7 @@ def _generate_download_id(username: str, file_path: str) -> str:
     return f"{username}:{file_path}"
 
 @router.post("/download")
-async def download_file(download_request: DownloadRequest):
+def download_file(download_request: DownloadRequest):
     """Download a file from a user."""
     if not soulseek_manager.logged_in:
         raise HTTPException(status_code=503, detail="Not connected to Soulseek")
@@ -39,16 +39,17 @@ async def download_file(download_request: DownloadRequest):
         'timestamp': time.time()
     }
     
-    core.downloads.enqueue_download(
-        username=download_request.username,
-        virtual_path=download_request.file_path,
-        size=download_request.size
-    )
+    with soulseek_manager.lock:
+        core.downloads.enqueue_download(
+            username=download_request.username,
+            virtual_path=download_request.file_path,
+            size=download_request.size
+        )
     
     return {"message": "Download started", "download_id": download_id}
 
 @router.get("/download-status/{username}/{file_path:path}")
-async def get_download_status(username: str, file_path: str):
+def get_download_status(username: str, file_path: str):
     """Get the status of a download."""
     key = _generate_download_id(username, file_path)
     status = soulseek_manager.download_status.get(key, {
@@ -71,7 +72,7 @@ async def get_download_status(username: str, file_path: str):
     )
 
 @router.get("/downloads/status", response_model=DownloadsAndStatusResponse)
-async def get_all_downloads_status():
+def get_all_downloads_status():
     """Get the status of all downloads and the system."""
     downloads_list = []
     
@@ -114,12 +115,16 @@ async def get_all_downloads_status():
 
     soulseek_status = "Connected" if soulseek_manager.logged_in else "Disconnected"
     
+    with soulseek_manager.lock:
+        active_uploads=len([t for t in core.uploads.transfers.values() if t.status == 'Transferring'])
+        active_downloads=len([t for t in core.downloads.transfers.values() if t.status == 'Transferring'])
+    
     system_status = SystemStatus(
         backend_status="Online",
         soulseek_status=soulseek_status,
         soulseek_username=config.sections["server"]["login"] if soulseek_manager.logged_in else None,
-        active_uploads=len([t for t in core.uploads.transfers.values() if t.status == 'Transferring']),
-        active_downloads=len([t for t in core.downloads.transfers.values() if t.status == 'Transferring'])
+        active_uploads=active_uploads,
+        active_downloads=active_downloads
     )
     
     return DownloadsAndStatusResponse(
@@ -128,7 +133,7 @@ async def get_all_downloads_status():
     )
 
 @router.post("/download/cancel/{download_id:path}")
-async def cancel_download(download_id: str):
+def cancel_download(download_id: str):
     """Cancel an active download."""
     from urllib.parse import unquote
     download_id = unquote(download_id)
@@ -144,10 +149,11 @@ async def cancel_download(download_id: str):
         del soulseek_manager.active_downloads[download_id]
     
     try:
-        for transfer in list(core.downloads.transfers.values()):
-            if transfer.username == username and transfer.virtual_path == file_path:
-                core.downloads.abort_transfer(transfer)
-                break
+        with soulseek_manager.lock:
+            for transfer in list(core.downloads.transfers.values()):
+                if transfer.username == username and transfer.virtual_path == file_path:
+                    core.downloads.abort_transfer(transfer)
+                    break
         
         if download_id in soulseek_manager.download_status:
             del soulseek_manager.download_status[download_id]

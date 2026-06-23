@@ -3,11 +3,22 @@
   -webkit-font-smoothing: antialiased;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-:root[data-theme="dark"] {
+  --sidebar-width: min(20svw, 450px);
+  --sidebar-height: 90svh;
+  --footer-height: min(10svh, 100px);
+  --border-radius-thumbnails: 8px;
+  --border-radius-rounded-button: 25px;
+  --font-size-song-footer: 1.05rem;
+  --font-size-artist-footer: 0.85rem;
+  --pading-top-sticky-header: 3rem;
+  
+  --primary-green: #1db954;
+  --secondary-green: #228822;
+  --grey: #888;
+
+  /* Theme Variables (Forced Dark Palette Only) */
   --primary-background: #000000;
   --secondary-background: #121212;
   --text-primary: #ffffff;
@@ -18,66 +29,31 @@
   --separator: #3e3e3e;
   --focus-background: #333;
   --icon-color: #ffffff;
-  --sticky-header-color: #1e0f44;
+  --sticky-header-color: #121212;
+  --sticky-header-blue: #121212;
   --body-background: var(--primary-background);
   --button-text: #ffffff;
   --sidebar-background: var(--primary-background);
-  --border-glow: 0 0 8px rgba(255, 255, 255, 0.2);
-  --text-glow: 0 0 2px rgba(255, 255, 255, 0.3);
+  --border-glow: 0 0 8px rgba(255, 255, 255, 0.05);
+  --text-glow: 0 0 2px rgba(255, 255, 255, 0.1);
   --volume-glow: 0 0 10px rgba(29, 185, 84, 0.5);
-  --border-color: rgba(255, 255, 255, 0.15);
-  --icon-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
-}
+  --border-color: rgba(255, 255, 255, 0.1);
+  --icon-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
 
-:root[data-theme="light"] {
-  --primary-background: #ffffff;
-  --secondary-background: #f5f5f5;
-  --text-primary: #000000;
-  --text-secondary: #1a1a1a;
-  --text-tertiary: #333333;
-  --surface-background: #ffffff;
-  --hover-background: #eeeeee;
-  --separator: #dddddd;
-  --focus-background: #e0e0e0;
-  --icon-color: #000000;
-  --sticky-header-color: #e8e8e8;
-  --body-background: var(--primary-background);
-  --button-text: #000000;
-  --sidebar-background: var(--secondary-background);
-  --border-glow: 0 0 8px rgba(0, 0, 0, 0.15);
-  --text-glow: 0 0 2px rgba(0, 0, 0, 0.2);
-  --volume-glow: 0 0 10px rgba(29, 185, 84, 0.6);
-  --border-color: rgba(0, 0, 0, 0.12);
-  --icon-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-
-  --primary-green: #1db954;
-  --secondary-green: #228822;
-
-  --grey: #888;
-
-  --sticky-header-blue: #1e0f44;
-
-  --app-logo-color: #9ad9ea;
-  --app-logo-color-darker: #56afc8;
-
-  --sidebar-width: min(20svw, 450px);
-  --sidebar-height: 90svh;
-
-  --footer-height: min(10svh, 100px);
-
-  --border-radius-thumbnails: 8px;
-  --border-radius-rounded-button: 25px;
-
-  --font-size-song-footer: 1.05rem;
-  --font-size-artist-footer: 0.85rem;
-
-  --pading-top-sticky-header: 3rem;
+  --pure-white: #ffffff;
+  --primary-white: #ffffff;
+  --secondary-white: #b3b3b3;
+  --tertiary-white: #888888;
+  --hover-white: rgba(255, 255, 255, 0.08);
+  --separator-white: rgba(255, 255, 255, 0.12);
+  --primary-black: #000000;
+  --secondary-black: #121212;
+  --Sonosano-green: #1db954;
 }
 
 .wrapperNavbar,
 .header,
-.sidebar-header,
-body > div:first-child {
+.sidebar-header {
   -webkit-app-region: drag;
 }
 

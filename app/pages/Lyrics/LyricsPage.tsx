@@ -30,7 +30,7 @@ interface LocalLyrics {
 const LyricsPage: React.FC = () => {
   const { t } = useTranslation()
   const { playbackManager, playbackState } = usePlaybackManager()
-  const { isPlaying, currentTime, currentSong } = playbackState
+  const { isPlaying, currentTime, duration, currentSong } = playbackState
 
   const [lyricsData, setLyricsData] = useState<LyricsData | null>(null)
   const [isLoadingLyrics, setIsLoadingLyrics] = useState(false)
@@ -238,6 +238,7 @@ const LyricsPage: React.FC = () => {
             lyrics={lyricsData?.syncedLyrics || []}
             plainLyrics={lyricsData?.plainLyrics || ''}
             currentTime={currentTime}
+            duration={duration}
             isPlaying={isPlaying}
             colorPalette={colorPalette}
             onSeek={handleSeek}
