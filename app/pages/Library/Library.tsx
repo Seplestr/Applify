@@ -129,9 +129,7 @@ export default function Library() {
         <p style={{ fontSize: '0.9em', color: '#e74c3c', marginTop: '10px' }}>
           Error: {(error as Error)?.message || 'Cannot connect to backend'}
         </p>
-        <p style={{ fontSize: '0.85em', color: '#999', marginTop: '5px' }}>
-          Check DevTools console for details
-        </p>
+        <p style={{ fontSize: '0.85em', color: '#999', marginTop: '5px' }}>Check DevTools console for details</p>
       </div>
     )
   }
