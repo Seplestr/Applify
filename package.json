@@ -5,7 +5,7 @@
   "main": "./out/main/main.js",
   "license": "Apache-2.0 license",
   "author": {
-    "name": "DIOR"
+    "name": "seplestr"
   },
   "scripts": {
     "dev": "node scripts/start-backend-sync.js && electron-vite dev",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DIOR/Applify"
+    "url": "https://github.com/seplestr/Applify"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",

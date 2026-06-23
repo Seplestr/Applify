@@ -99,7 +99,7 @@ class SongProcessor:
 
         try:
             mb_url = f"http://musicbrainz.org/ws/2/release/?query=artist:{artist} AND release:{album}&fmt=json"
-            headers = {'User-Agent': 'Applify/1.0.0 ( https://github.com/DIOR/Applify )'}
+            headers = {'User-Agent': 'Applify/1.0.0 ( https://github.com/seplestr/Applify )'}
             response = requests.get(mb_url, headers=headers)
             response.raise_for_status()
             mb_data = response.json()
@@ -189,7 +189,7 @@ class SongProcessor:
 
         try:
             mb_url = f"http://musicbrainz.org/ws/2/recording/?query={' AND '.join(query_parts)}&fmt=json"
-            headers = {'User-Agent': 'Applify/1.0.0 ( https://github.com/DIOR/Applify )'}
+            headers = {'User-Agent': 'Applify/1.0.0 ( https://github.com/seplestr/Applify )'}
             response = requests.get(mb_url, headers=headers)
             response.raise_for_status()
             mb_data = response.json()
